@@ -63,9 +63,7 @@ export const assignKeyHandler = (e, keyMap, modifiers) => {
   if (modifiers.stop)
     e.stopPropagation()
 
-  const { nodeName, isContentEditable } = document.activeElement
-  if (isContentEditable)
-    return
+  const { nodeName } = document.activeElement
   if (FORBIDDEN_NODES.includes(nodeName))
     return
 
