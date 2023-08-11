@@ -63,10 +63,6 @@ export const assignKeyHandler = (e, keyMap, modifiers) => {
   if (modifiers.stop)
     e.stopPropagation()
 
-  const { nodeName } = document.activeElement
-  if (FORBIDDEN_NODES.includes(nodeName))
-    return
-
   const callback = getHotkeyCallback(keyMap, keyCode, eventKeyModifiers)
   if (!callback)
     return e
