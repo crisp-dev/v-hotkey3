@@ -27,7 +27,6 @@ __export(src_exports, {
 module.exports = __toCommonJS(src_exports);
 
 // src/helpers.js
-var FORBIDDEN_NODES = ["INPUT", "TEXTAREA", "SELECT"];
 var areObjectsEqual = (a, b) => Object.entries(a).every(([key, value]) => b[key] === value);
 var splitCombination = (combination) => {
   combination = combination.replace(/\s/g, "");
@@ -51,9 +50,6 @@ var assignKeyHandler = (e, keyMap, modifiers) => {
     e.preventDefault();
   if (modifiers.stop)
     e.stopPropagation();
-  const { nodeName } = document.activeElement;
-  if (FORBIDDEN_NODES.includes(nodeName))
-    return;
   const callback = getHotkeyCallback(keyMap, keyCode, eventKeyModifiers);
   if (!callback)
     return e;
