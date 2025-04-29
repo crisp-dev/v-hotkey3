@@ -240,8 +240,8 @@ var getKeyMap = (combinations, alias) => {
 function bindEvent(el, { value, modifiers }, alias) {
   el._keyMap = getKeyMap(value, alias);
   el._keyHandler = (e) => assignKeyHandler(e, el._keyMap, modifiers);
-  document.addEventListener("keydown", el._keyHandler);
-  document.addEventListener("keyup", el._keyHandler);
+  document.addEventListener("keydown", el._keyHandler, modifiers.capture);
+  document.addEventListener("keyup", el._keyHandler, modifiers.capture);
 }
 function unbindEvent(el) {
   document.removeEventListener("keydown", el._keyHandler);
@@ -273,8 +273,8 @@ function useHotkey(keymap, options = {}) {
     _modifier[options.modifier] = true;
   const keyHandler = (e) => assignKeyHandler(e, _keyMap, _modifier);
   onMounted(() => {
-    document.addEventListener("keydown", keyHandler);
-    document.addEventListener("keyup", keyHandler);
+    document.addEventListener("keydown", keyHandler, options.capture);
+    document.addEventListener("keyup", keyHandler, options.capture);
   });
   if (getCurrentInstance()) {
     onScopeDispose(() => {

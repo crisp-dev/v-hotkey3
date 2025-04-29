@@ -12,8 +12,9 @@ declare function buildDirective(alias: Record<string, string | number>): Directi
 
 type KeyMap = Record<string, Record<string, () => void> | (() => void)>;
 interface Options {
-    modifier?: 'prevent' | 'stop';
+    modifier?: 'prevent' | 'stop' | 'capture';
     alias?: Record<string, string | number>;
+    capture?: boolean;
 }
 declare function useHotkey(keymap: KeyMap, options?: Options): void;
 
