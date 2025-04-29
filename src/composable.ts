@@ -5,8 +5,9 @@ import { getKeyMap } from './keycodes'
 type KeyMap = Record<string, Record<string, () => void> | (() => void)>
 
 interface Options {
-  modifier?: 'prevent' | 'stop'
+  modifier?: 'prevent' | 'stop' | 'capture'
   alias?: Record<string, string | number>
+  capture?: boolean
 }
 
 export function useHotkey(keymap: KeyMap, options: Options = {}) {
@@ -18,8 +19,8 @@ export function useHotkey(keymap: KeyMap, options: Options = {}) {
   const keyHandler = (e: Event) => assignKeyHandler(e, _keyMap, _modifier)
 
   onMounted(() => {
-    document.addEventListener('keydown', keyHandler)
-    document.addEventListener('keyup', keyHandler)
+    document.addEventListener('keydown', keyHandler, options.capture)
+    document.addEventListener('keyup', keyHandler, options.capture)
   })
 
   if (getCurrentInstance()) {

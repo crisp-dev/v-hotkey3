@@ -16,8 +16,8 @@ function bindEvent(el: HTMLElementWithKeyMap | SVGElementWithKeyMap, { value, mo
   el._keyMap = getKeyMap(value, alias)
   el._keyHandler = e => assignKeyHandler(e, el._keyMap, modifiers)
 
-  document.addEventListener('keydown', el._keyHandler)
-  document.addEventListener('keyup', el._keyHandler)
+  document.addEventListener('keydown', el._keyHandler, modifiers.capture)
+  document.addEventListener('keyup', el._keyHandler, modifiers.capture)
 }
 
 function unbindEvent(el: HTMLElementWithKeyMap | SVGElementWithKeyMap) {
