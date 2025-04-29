@@ -20,9 +20,9 @@ function bindEvent(el: HTMLElementWithKeyMap | SVGElementWithKeyMap, { value, mo
   document.addEventListener('keyup', el._keyHandler, modifiers.capture)
 }
 
-function unbindEvent(el: HTMLElementWithKeyMap | SVGElementWithKeyMap) {
-  document.removeEventListener('keydown', el._keyHandler)
-  document.removeEventListener('keyup', el._keyHandler)
+function unbindEvent(el: HTMLElementWithKeyMap | SVGElementWithKeyMap, { modifiers }: DirectiveBinding) {
+  document.removeEventListener('keydown', el._keyHandler, modifiers.capture)
+  document.removeEventListener('keyup', el._keyHandler, modifiers.capture)
 }
 
 export function buildDirective(alias: Record<string, string | number>): Directive<HTMLElementWithKeyMap | SVGElementWithKeyMap> {
@@ -32,12 +32,12 @@ export function buildDirective(alias: Record<string, string | number>): Directiv
     },
     updated(el, binding) {
       if (binding.value !== binding.oldValue) {
-        unbindEvent(el)
+        unbindEvent(el, binding)
         bindEvent(el, binding, alias)
       }
     },
-    unmounted(el) {
-      unbindEvent(el)
+    unmounted(el, binding) {
+      unbindEvent(el, binding)
     },
   }
 }

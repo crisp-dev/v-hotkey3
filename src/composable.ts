@@ -25,8 +25,8 @@ export function useHotkey(keymap: KeyMap, options: Options = {}) {
 
   if (getCurrentInstance()) {
     onScopeDispose(() => {
-      document.removeEventListener('keydown', keyHandler)
-      document.removeEventListener('keyup', keyHandler)
+      document.removeEventListener('keydown', keyHandler, options.capture)
+      document.removeEventListener('keyup', keyHandler, options.capture)
     })
   }
 }
