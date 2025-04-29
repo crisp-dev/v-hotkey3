@@ -243,9 +243,9 @@ function bindEvent(el, { value, modifiers }, alias) {
   document.addEventListener("keydown", el._keyHandler, modifiers.capture);
   document.addEventListener("keyup", el._keyHandler, modifiers.capture);
 }
-function unbindEvent(el) {
-  document.removeEventListener("keydown", el._keyHandler);
-  document.removeEventListener("keyup", el._keyHandler);
+function unbindEvent(el, { modifiers }) {
+  document.removeEventListener("keydown", el._keyHandler, modifiers.capture);
+  document.removeEventListener("keyup", el._keyHandler, modifiers.capture);
 }
 function buildDirective(alias) {
   return {
@@ -254,12 +254,12 @@ function buildDirective(alias) {
     },
     updated(el, binding) {
       if (binding.value !== binding.oldValue) {
-        unbindEvent(el);
+        unbindEvent(el, binding);
         bindEvent(el, binding, alias);
       }
     },
-    unmounted(el) {
-      unbindEvent(el);
+    unmounted(el, binding) {
+      unbindEvent(el, binding);
     }
   };
 }
@@ -278,8 +278,8 @@ function useHotkey(keymap, options = {}) {
   });
   if (getCurrentInstance()) {
     onScopeDispose(() => {
-      document.removeEventListener("keydown", keyHandler);
-      document.removeEventListener("keyup", keyHandler);
+      document.removeEventListener("keydown", keyHandler, options.capture);
+      document.removeEventListener("keyup", keyHandler, options.capture);
     });
   }
 }
