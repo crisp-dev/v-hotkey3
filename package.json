@@ -1,7 +1,6 @@
 {
-  "name": "v-hotkey3",
-  "version": "0.1.4",
-  "packageManager": "pnpm@7.18.0",
+  "name": "@crisp-fix/v-hotkey3",
+  "version": "0.2.0",
   "description": "Vue 3.2.x directive for binding hotkeys to components.",
   "author": "Robert Soriano <sorianorobertc@gmail.com>",
   "license": "MIT",
@@ -26,17 +25,20 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "dist"
   ],
   "scripts": {
     "build-fast": "tsup src/index.ts --format cjs,esm",
-    "_build": "pnpm build-fast --dts-resolve",
+    "build": "npm run build-fast -- --dts-resolve",
     "lint": "eslint .",
-    "prepublishOnly": "pnpm build",
+    "prepublishOnly": "npm run build",
     "release": "bumpp && npm publish",
     "test": "vitest",
-    "update-deps": "taze -w && pnpm i",
+    "update-deps": "taze -w && npm install",
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
